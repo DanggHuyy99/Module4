@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+    <!--    <style>-->
+    <!--        h1:hover{-->
+    <!--            font-family: ".VnCentury Schoolbook";-->
+    <!--            font-style: italic;-->
+    <!--            color: #006bb6;-->
+    <!--            font-weight: normal;-->
+    <!--            font-size: 18px;-->
+    <!--            padding:3px 3px 3px 6px;-->
+    <!--            border-left:3px solid #c6c1b8;-->
+    <!--            background:#f2efe9;-->
+    <!--            display:block;-->
+    <!--        }-->
+    <!--    </style>-->
+</head>
+<body>
+<div class="container">
+    <h1> Hello 500 ANH EM</h1>
+    <h1 th:text="${message}"></h1>
+    <h2 th:text="${id}"></h2>
+    <h1><a href="/products/create">CREATE PRODUCT</a></h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="product: ${products}">
+            <tr>
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.price}"></td>
+                <td th:text="${product.category.name}"></td>
+                <td>
+                    <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary btn-sm">EDIT</a>
+                    <a onclick="return confirm('Do you want to delete?')" th:href="@{/products/delete/{id}(id=${product.id})}" id="${product.id}" class="btn btn-danger btn-sm">DELETE</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

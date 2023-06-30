@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CREATE</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .error-message {
+            color: red;
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container mt-5">
+    <h2>Create Product</h2>
+    <form th:object="${product}" action="/products/create" method="post">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" th:value="*{name}" class="form-control">
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></div>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" step="any" name="price" th:value="*{price}" class="form-control" id="price">
+            <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-message"></div>
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select name="category" th:field="*{category.id}" class="form-control" id="category">
+                <th:block th:each="category: ${categories}">
+                    <option th:value="${category.id}" th:text="${category.name}"></option>
+                </th:block>
+            </select>
+            <div th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="error-message"></div>
+        </div>
+        <button class="btn btn-primary">Submit</button>
+    </form>
+    <a href="http://localhost:8080/products" class="btn btn-secondary">Back to List</a>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

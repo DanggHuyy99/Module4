@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <title>Currency Converter</title>
+</head>
+<body>
+<h1>Currency Converter</h1>
+
+<form action="/currency23/convert" method="post">
+    <label for="usdAmount">USD Amount:</label>
+    <input type="number" id="usdAmount" name="usd" th:value="${usd123}"/>
+    <br/>
+    <input type="submit" value="Convert"/>
+</form>
+<form action="/currency23/convert1" method="post">
+    <label for="usdAmount">VND Amount:</label>
+    <input type="number" id="vndAmount" name="vnd" th:value="${vnd123}"/>
+    <br/>
+    <input type="submit" value="Convert"/>
+</form>
+
+<h2>Conversion Result</h2>
+<p>USD Amount: <span th:text="${usd}"></span></p>
+<p>VND Amount: <span th:text="${vnd}"></span></p>
+</body>
+</html>

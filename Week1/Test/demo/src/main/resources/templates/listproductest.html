@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!-- Link to Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <div class="mb-3">
+    <a class="btn btn-primary" href="/productest/createproduct">CREATE PRODUCT</a>
+    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#searchModal">Search Product</button>
+  </div>
+
+  <table class="table table-striped">
+    <!-- Table content here -->
+  </table>
+</div>
+
+<!-- Search Product Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchModalLabel">Search Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Search form content here -->
+        <form action="/productest/search" method="get">
+          <div class="mb-3">
+            <label for="searchInput" class="form-label">Keyword</label>
+            <input name="search" type="text" class="form-control" id="searchInput" placeholder="Enter keyword">
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Code</th>
+      <th>Price</th>
+      <th>Title</th>
+      <th>Category</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="po: ${productss}">
+      <tr>
+        <td th:text="${po.id}"></td>
+        <td th:text="${po.code}"></td>
+        <td th:text="${po.price}"></td>
+        <td th:text="${po.tittle}"></td>
+        <td th:text="${po.category.name}"></td>
+        <td>
+          <a th:href="@{/productest/editproduct/{id}(id=${po.id})}"><button class="btn btn-primary">EDIT</button></a>
+          <a onclick="return confirm('Do you want to delete?')" th:href="@{/productest/deleteproduct/{id}(id=${po.id})}"><button class="btn btn-primary">DELETE</button></a>
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item" th:classappend="${pageable.pageNumber == 0 ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{/productest(page=${pageable.pageNumber - 1})}">Previous</a>
+      </li>
+
+
+      <th:block th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}">
+        <li class="page-item" th:classappend="${currentPage == pageNumber ? 'active' : ''}">
+          <a class="page-link" th:href="@{/productest(page=${pageNumber})}">[[${pageNumber + 1}]]</a>
+        </li>
+      </th:block>
+
+
+      <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{/productest(page=${pageable.pageNumber +1})}">Next</a>
+      </li>
+    </ul>
+  </nav>
+  <a href="http://localhost:8080/productest" class="btn btn-secondary">Back to List</a>
+</div>
+
+<!-- Link to Bootstrap JS (Optional) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
