@@ -1,6 +1,9 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.ProductTest;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -15,7 +18,7 @@ public interface ProductTestRepository extends JpaRepository<ProductTest, Long> 
     "p.tittle like :search or "+
     "p.category.name like :search")
     List<ProductTest> searchEverything(String search);
-    List<ProductTest> findByTittleContainingOrCodeContainingOrCategory_NameContaining(String tittle, String code, String category_name);
+    Page<ProductTest> findByTittleContainingOrCodeContainingOrCategory_NameContaining(@NotBlank(message = "Tittle is required") String tittle, @NotBlank(message = "Code is required") String code, String category_name, Pageable pageable);
 
     Optional<ProductTest> findById(long id);
 }

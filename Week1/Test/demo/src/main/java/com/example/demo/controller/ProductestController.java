@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,11 +42,13 @@ public class ProductestController {
 //    }
 
     @GetMapping("/search")
-    public String search(@RequestParam String search,Model model){
+    public String search(@RequestParam(defaultValue = "") String search,Model model,@PageableDefault(size = 5, sort = {"price"})  Pageable pageable){
 //        search = "%" + search + "%";
-
-        model.addAttribute("products", productTestRepository.findByTittleContainingOrCodeContainingOrCategory_NameContaining(search, search, search));
-        return "redirect:/productest";
+        var productPage = productTestRepository.findByTittleContainingOrCodeContainingOrCategory_NameContaining(search, search, search, pageable);
+        model.addAttribute("productss", productPage);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("pageable",pageable);
+        return "listproductest";
     }
 
     @GetMapping("/createproduct")
@@ -107,7 +110,8 @@ public class ProductestController {
     }
 
     @GetMapping
-    public String getProductList(Model model, Pageable pageable) {
+    public String getProductList(Model model, Pageable pageable, @RequestParam(defaultValue = "") String search) {
+
         int pageSize = 3;
         pageable = PageRequest.of(pageable.getPageNumber(), pageSize);
 
